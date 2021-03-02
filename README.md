@@ -1,1 +1,3 @@
 # final-workshop
+
+Projekt koncowy
