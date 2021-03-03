@@ -1,6 +1,5 @@
 from django.db import models
 
-
 PIZZA_SIZES = (
     (1, "small"),
     (2, "medium"),
@@ -19,8 +18,6 @@ class User(models.Model):
     last_name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255)
     password = models.CharField(max_length=50)
-    is_active = models.BooleanField()
-    is_system_user = models.BooleanField()
     address = models.ForeignKey("Address", related_name='users', on_delete=models.CASCADE, null=True)
 
 
@@ -43,8 +40,8 @@ class Pizza(models.Model):
 
 
 class PizzaTops(models.Model):
-    pizza = models.ForeignKey(Pizza)
-    topping = models.ForeignKey(Topping)
+    pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
+    topping = models.ForeignKey(Topping, on_delete=models.CASCADE)
     amount = models.CharField(max_length=1, choices=TOP_AMOUNT, default='n')
 
 
@@ -52,3 +49,12 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_price = models.DecimalField(max_digits=6, decimal_places=2)
     pizza = models.ForeignKey(Pizza, related_name='orders', on_delete=models.CASCADE)
+    order_date = models.DateTimeField(auto_now_add=True)
+    pizzas = models.ManyToManyField(Pizza, through="PizzaOrder")
+    note = models.TextField(blank=True)
+
+
+class PizzaOrder(models.Model):
+    pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    amount = models.IntegerField()
