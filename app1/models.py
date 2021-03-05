@@ -53,7 +53,7 @@ class Order(models.Model):
     pizzas = models.ManyToManyField(Pizza, through="PizzaOrder")
     note = models.TextField(blank=True)
 
-
+#
 class PizzaOrder(models.Model):
     pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
