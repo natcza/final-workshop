@@ -36,7 +36,7 @@ class Pizza(models.Model):
     name = models.CharField(max_length=255)
     size = models.IntegerField(choices=PIZZA_SIZES)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    toppings = models.ManyToManyField(Topping, through="PizzaTopps")
+    toppings = models.ManyToManyField(Topping, through="PizzaTops")
 
 
 class PizzaTops(models.Model):
@@ -53,7 +53,7 @@ class Order(models.Model):
     pizzas = models.ManyToManyField(Pizza, through="PizzaOrder")
     note = models.TextField(blank=True)
 
-#
+
 class PizzaOrder(models.Model):
     pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
