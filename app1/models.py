@@ -34,8 +34,9 @@ class Topping(models.Model):
 
 class Pizza(models.Model):
     name = models.CharField(max_length=255)
-    size = models.IntegerField(choices=PIZZA_SIZES)
+    size = models.IntegerField(choices=PIZZA_SIZES, blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    description = models.TextField()
     toppings = models.ManyToManyField(Topping, through="PizzaTops")
 
 
