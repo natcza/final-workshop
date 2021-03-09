@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from app1.models import (
     Pizza,
-    Topping,
+    Topping, Order,
 )
 
 from app1.forms import (
@@ -30,11 +30,6 @@ class PizzaDetailsView(View):
         pizza_id = kwargs['pk']
         pizza = Pizza.objects.get(pk=pizza_id)
         toppings = Topping.objects.all()
-        # i = 1
-        # tab = []
-        # for topping in toppings:
-        #     t = (i, topping.name, topping.price)
-        #     tab.append(t)
 
         ctx = {
             'pizza': pizza,
@@ -46,5 +41,16 @@ class PizzaDetailsView(View):
 
     def post(self, request, *args, **kwargs):
         form = ToppingForm(request.POST)
-        breakpoint()
-        # if form.is_valid():
+        if not form.is_valid():  # TODO if not_valid():
+            return redirect('pizza-list')
+        pizza_id = kwargs['pk']
+        chosen_pizza = get_object_or_404(Pizza, pk=pizza_id)
+        #TODO skorzystac z metody sum musimy miec cene skladnikow plus cena pizzy
+        topp = form.cleaned_data.get('topp')
+        order = Order.objects.create(order_price=, note)
+        ordered_pizza = Pizza.objects.create(name=chosen_pizza.name, size=chosen_pizza.size, price=chosen_pizza.price)
+        for i in topp:
+            ordered_pizza.toppings.add(Topping.objects.get(pk=int(i)))
+        return redirect('pizza-list')
+
+

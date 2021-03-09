@@ -1,6 +1,7 @@
 {% extends 'app1/base.html' %}
-
 {% block content %}
+    <form action="" method="post">
+    {% csrf_token %}
     {% if message %}
 	    <h4>{{ message }}</h4>
     {% endif %}
@@ -11,20 +12,12 @@
     opis: {{ pizza.description }}<br>
 <br>
 <br>
-
-<!--    <ul>-->
-<!--    {% for topping in toppings %}-->
-<!--        <li> {{ topping.name}}, {{ topping.price}}zl </li>-->
-
-<!--    {% endfor %}-->
-
-<!--    </ul>-->
     {{ form }}
     <br>
-<input type="submit" value="DODAJ">
+    <input type="submit" value="DODAJ">
     <br>
     ----------------------------------
     </br>
     <a href="{% url 'pizza-list' %}"> << Powrot do listy Pizz  </a>
-
+</form>
 {% endblock %}
