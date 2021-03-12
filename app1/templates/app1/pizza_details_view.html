@@ -12,7 +12,17 @@
     opis: {{ pizza.description }}<br>
 <br>
 <br>
-    {{ form }}
+{#    {{ formset.as_p }}#}
+    {{ formset.management_form }}
+    {% for form in formset %}
+        <ul>
+            <li>{{ form.name.value }}</li>
+            <li>{{ form.price.value }}</li>
+            <li>{{ form.number }}</li>
+        </ul>
+    {% endfor %}
+</form>
+
     <br>
     <input type="submit" value="DODAJ">
     <br>
