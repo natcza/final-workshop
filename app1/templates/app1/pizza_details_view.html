@@ -1,33 +1,17 @@
 {% extends 'app1/base.html' %}
 {% block content %}
-    <form action="" method="post">
-    {% csrf_token %}
     {% if message %}
 	    <h4>{{ message }}</h4>
     {% endif %}
 
-    Pizza:<br>
+    <h1>Pizza </h1><br>
     nazwa: {{ pizza.name }}<br>
-    rozmiar: {{ pizza.size }}<br>
+    cena: {{ pizza.price }} zł<br>
     opis: {{ pizza.description }}<br>
-<br>
-<br>
-{#    {{ formset.as_p }}#}
-    {{ formset.management_form }}
-    {% for form in formset %}
-        <ul>
-            <li>{{ form.name.value }}</li>
-            <li>{{ form.price.value }}</li>
-            <li>{{ form.number }}</li>
-        </ul>
-    {% endfor %}
-</form>
 
-    <br>
-    <input type="submit" value="DODAJ">
-    <br>
-    ----------------------------------
-    </br>
+<br>
+<br>
+
     <a href="{% url 'pizza-list' %}"> << Powrot do listy Pizz  </a>
-</form>
+
 {% endblock %}

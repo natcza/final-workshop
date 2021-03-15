@@ -21,9 +21,9 @@ def create_Topping():
 
 
 def create_Pizza():
-    Pizza.objects.create(name="Margarita", size=1, price=19)
-    Pizza.objects.create(name="Funghi", size=1, price=24)
-    Pizza.objects.create(name="Cottp", size=1, price=25)
-    Pizza.objects.create(name="Fec", size=1, price=26)
-    Pizza.objects.create(name="Diavola", size=1, price=27)
-    Pizza.objects.create(name="Vege", size=1, price=28)
+    Pizza.objects.create(name="Margarita", price=19)
+    Pizza.objects.create(name="Funghi", price=24)
+    Pizza.objects.create(name="Cottp", price=25)
+    Pizza.objects.create(name="Fec", price=26)
+    Pizza.objects.create(name="Diavola", price=27)
+    Pizza.objects.create(name="Vege", price=28)

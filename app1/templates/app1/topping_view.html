@@ -1,0 +1,16 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+    {% if message %}
+	    <h4>{{ message }}</h4>
+    {% endif %}
+
+    Lista Dodatkow:
+    <ul>
+    {% for topping in toppings %}
+        <li><a href='/topping/{{ topping.pk }}'>{{ topping.name }}</a></li>
+    {% endfor %}
+
+    </ul>
+
+{% endblock %}

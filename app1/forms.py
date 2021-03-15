@@ -21,15 +21,16 @@ from app1.models import Topping
 # class ToppingForm(forms.Form):
 #     topping = forms.ModelMultipleChoiceField(queryset=Topping.objects.all())
 
-#gdy dziedziczymy z modelform (kreowanie automatycznych formularzy dla modeli)
-    # class Meta:
-    #     model = Topping
-    #     fields = ('name',)
+# gdy dziedziczymy z modelform (kreowanie automatycznych formularzy dla modeli)
+# class Meta:
+#     model = Topping
+#     fields = ('name',)
 
 class ToppingForm(forms.ModelForm):
-    number = forms.IntegerField()
-    is_active = forms.BooleanField()
-    name = forms.CharField(disabled=True)
+    number = forms.IntegerField(min_value=0, required=False)
+    name = forms.CharField(disabled=True, required=False)
+    price = forms.DecimalField(required=False, disabled=True)
+
     class Meta:
         model = Topping
         fields = ['name', 'price']
