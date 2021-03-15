@@ -1,7 +1,4 @@
-{% extends 'base.html' %}
-
+{% extends 'accounts/base.html' %}
 {% block content %}
-    {% if message %}
-	    <h4>{{ message }}</h4>
-    {% endif %}
+    {{ message }}
 {% endblock %}

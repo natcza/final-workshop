@@ -5,7 +5,7 @@ from faker.generator import random
 
 from app1.models import (
     Pizza,
-    Topping, Order,
+    Topping, Order, PizzaOrder, PizzaOrderTops,
 )
 
 from app1.forms import (
@@ -144,9 +144,22 @@ class PizzaToppingsView(View):
 
     def post(self, request, *args, **kwargs):
         form = ToppingForm(request.POST)
+        pizza_id = kwargs['pk']
+        pizza = get_object_or_404(Pizza, pk=pizza_id)
         ToppingFormSet = modelformset_factory(Topping, ToppingForm)
         formset = ToppingFormSet(queryset=Topping.objects.all())
         formset = ToppingFormSet(request.POST)
-        if form.is_valid():
-            pass
+        user = request.user
+        order_price = pizza.price
+        if formset.is_valid():
+            for i in formset.cleaned_data:   #i to pojedynczy slownik, kotry sie zmienia co kazde przejscie
+                order_price += i['price'] * i['number']
+            create_order = Order.objects.create(user=user, order_price=order_price)
+            pizza_order = PizzaOrder.objects.create(pizza=pizza, order=create_order, amount=1)
+            create_order.add(pizza_order)
+            for y in formset.cleaned_data:
+                if y['number'] != None:
+                    topping = y['id']
+                    pizza_order_topping = PizzaOrderTops.objects.create(pizza_order=pizza_order, pizza_top=topping, amount=)
+
         breakpoint()
