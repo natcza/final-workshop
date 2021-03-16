@@ -26,7 +26,7 @@ class Pizza(models.Model):
 class PizzaTops(models.Model):
     pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
     topping = models.ForeignKey(Topping, on_delete=models.CASCADE)
-    pizza_size = models.CharField(max_length=1, choices=PIZZA_SIZES, default='n')
+    pizza_size = models.CharField(max_length=1, choices=PIZZA_SIZES, default='2')
 
 
 class Order(models.Model):
@@ -39,12 +39,12 @@ class Order(models.Model):
 
 class PizzaOrder(models.Model):
     pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
-    toppings = models.ManyToManyField(PizzaTops, through='PizzaOrderTops')
+    toppings = models.ManyToManyField(Topping, through='PizzaOrderTops')
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     amount = models.IntegerField()
 
 
 class PizzaOrderTops(models.Model):
     pizza_order = models.ForeignKey(PizzaOrder, on_delete=models.CASCADE)
-    pizza_top = models.ForeignKey(PizzaTops, on_delete=models.CASCADE)
+    pizza_top = models.ForeignKey(Topping, on_delete=models.CASCADE)
     amount = models.IntegerField()

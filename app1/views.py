@@ -129,7 +129,7 @@ class PizzaToppingsView(View):
 
     def get(self, request, *args, **kwargs):
         form = ToppingForm()
-        ToppingFormSet = modelformset_factory(Topping, ToppingForm)
+        ToppingFormSet = modelformset_factory(Topping, ToppingForm, extra=0)
         formset = ToppingFormSet(queryset=Topping.objects.all())
         message = None
         pizza_id = kwargs['pk']
@@ -146,20 +146,31 @@ class PizzaToppingsView(View):
         form = ToppingForm(request.POST)
         pizza_id = kwargs['pk']
         pizza = get_object_or_404(Pizza, pk=pizza_id)
-        ToppingFormSet = modelformset_factory(Topping, ToppingForm)
-        formset = ToppingFormSet(queryset=Topping.objects.all())
-        formset = ToppingFormSet(request.POST)
+        ToppingFormSet = modelformset_factory(Topping, ToppingForm, extra=0)
+        # formset = ToppingFormSet(queryset=Topping.objects.all())
+        formset = ToppingFormSet(request.POST, queryset=Topping.objects.all())
         user = request.user
         order_price = pizza.price
         if formset.is_valid():
-            for i in formset.cleaned_data:   #i to pojedynczy slownik, kotry sie zmienia co kazde przejscie
-                order_price += i['price'] * i['number']
+            for topping in formset.cleaned_data:  # topping to pojedynczy slownik, ktory sie zmienia co kazde przejscie
+                if topping['number'] != None:
+                    order_price += topping['price'] * topping['number']
             create_order = Order.objects.create(user=user, order_price=order_price)
             pizza_order = PizzaOrder.objects.create(pizza=pizza, order=create_order, amount=1)
-            create_order.add(pizza_order)
-            for y in formset.cleaned_data:
-                if y['number'] != None:
-                    topping = y['id']
-                    pizza_order_topping = PizzaOrderTops.objects.create(pizza_order=pizza_order, pizza_top=topping, amount=)
 
-        breakpoint()
+            # create_order.pizzas.add(pizza_order)
+
+            for topping in formset.cleaned_data:
+                if topping['number'] != None:
+                    topping_object = topping['id']
+                    pizza_order_topping = PizzaOrderTops.objects.create(pizza_order=pizza_order, pizza_top=topping_object,
+                                                                        amount=topping['number'])
+            #
+            #         pizza_order.toppings.add(pizza_order_topping)
+        context = {
+                    'pizza': pizza,
+                    'formset': formset,
+        }
+        return render(request, self.template_name, context)
+
+    # breakpoint()
