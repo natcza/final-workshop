@@ -1,7 +1,10 @@
 from django.forms import modelform_factory, modelformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import View
 from faker.generator import random
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from app1.models import (
     Pizza,
@@ -124,8 +127,9 @@ class ToppingView(View):
         return render(request, self.template_name, ctx)
 
 
-class PizzaToppingsView(View):
+class PizzaToppingsView(LoginRequiredMixin, View):
     template_name = 'app1/pizza_topping_view.html'
+    login_url = reverse_lazy('accounts:login')
 
     def get(self, request, *args, **kwargs):
         form = ToppingForm()
@@ -134,7 +138,7 @@ class PizzaToppingsView(View):
         message = None
         pizza_id = kwargs['pk']
         pizza = get_object_or_404(Pizza, pk=pizza_id)
-        toppings = Topping.objects.all()
+        # toppings = Topping.objects.all()
         context = {
             'form': form,
             'pizza': pizza,
@@ -158,19 +162,41 @@ class PizzaToppingsView(View):
             create_order = Order.objects.create(user=user, order_price=order_price)
             pizza_order = PizzaOrder.objects.create(pizza=pizza, order=create_order, amount=1)
 
-            # create_order.pizzas.add(pizza_order)
-
             for topping in formset.cleaned_data:
                 if topping['number'] != None:
-                    topping_object = topping['id']
-                    pizza_order_topping = PizzaOrderTops.objects.create(pizza_order=pizza_order, pizza_top=topping_object,
+                    topping_id = topping['id']
+                    PizzaOrderTops.objects.create(pizza_order=pizza_order, pizza_top=topping_id,
                                                                         amount=topping['number'])
-            #
-            #         pizza_order.toppings.add(pizza_order_topping)
+
+        else:
+            context = {
+                'pizza': pizza,
+                'formset': formset,
+            }
+            return render(request, self.template_name, context)
+        return redirect('pizza-order', pk=create_order.pk)
+
+
+class OrderView(View):
+    template_name = 'app1/pizzaorder_view.html'
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        order_id = kwargs['pk']
+        order = get_object_or_404(Order, pk=order_id)
+        pizzas = order.pizzas.all()
+        pizza_orders = PizzaOrder.objects.filter(order__pk=order_id)
+        # toppings =
+        # pizzaorder = PizzaOrderTops.objects.get(pk=order_id)
         context = {
-                    'pizza': pizza,
-                    'formset': formset,
+            'pizza_orders': pizza_orders,
+
         }
+
         return render(request, self.template_name, context)
 
-    # breakpoint()
+
+# class GoodbayView(View):
+#     def get(self, request, *args, **kwargs):
+#         message = 'Dziekujemy za zlozenie zamowienia!'
+#
+#         return request(request, message)

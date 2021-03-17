@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from .forms import UserLoginForm, UserCreateForm, ResetPasswordForm
 
@@ -25,6 +25,8 @@ class LoginView(View):
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
+                if request.GET.get('next'):
+                    return redirect(request.GET['next'])
                 message = "Zostales zalogowany!"
             else:
                 message = 'Podaj poprawne dane'

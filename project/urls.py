@@ -21,6 +21,7 @@ from app1.views import (
     PizzaDetailsView,
     ToppingView,
     PizzaToppingsView,
+    OrderView,
 )
 
 urlpatterns = [
@@ -31,4 +32,6 @@ urlpatterns = [
     path('pizza-details/<int:pk>/', PizzaDetailsView.as_view(), name='pizza-details'),
     path('topping/', ToppingView.as_view(), name='topping-list'),
     path('pizza_topping/<int:pk>/', PizzaToppingsView.as_view(), name='pizza-topping'),
+    path('pizza_order/<int:pk>/', OrderView.as_view(), name='pizza-order'),
+
 ]

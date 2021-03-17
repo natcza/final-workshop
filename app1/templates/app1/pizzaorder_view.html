@@ -1,0 +1,31 @@
+{% extends 'app1/base.html' %}
+{% block content %}
+    <form action="" method="post">
+    {% csrf_token %}
+    {% if message %}
+	    <h4>{{ message }}</h4>
+    {% endif %}
+
+    <h1>Pizza </h1><br>
+    {% for pizza_order in pizza_orders %}
+    nazwa: {{ pizza_order.pizza.name }}<br>
+    opis: {{ pizza_order.pizza.description }}<br>
+    Skadniki
+        {% for pizza_order_top in pizza_order.pizzaordertops_set.all %}
+            {{ pizza_order_top.pizza_top.name }} x {{ pizza_order_top.amount }}
+            {%  endfor %}
+    {%  endfor %}
+<br>
+<br>
+{#    Wybrales ekstra skladniki:#}
+
+{#    {{ formset.as_p }}#}
+
+    <br>
+    <input type="submit" value="ZAMOW">
+    <br>
+    ----------------------------------
+    </br>
+    <a href="{% url 'pizza-list' %}"> << Zamow!  </a>
+</form>
+{% endblock %}
