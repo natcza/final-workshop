@@ -51,7 +51,8 @@ class LogoutView(View):
         context = {
             'message': message,
         }
-        return render(request, 'accounts/logout.html', context)
+        # return render(request, 'accounts/logout.html', context)
+        return redirect('pizza-list')
 
 
 class MainView(View):

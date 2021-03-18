@@ -9,6 +9,7 @@
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p}}
-        <p><input type="submit" value="send"></p>
+        <p><input type="submit" value="Zarejestruj sie"></p>
+     <a href="{% url 'accounts:login' %}"> << Zaloguj </a>
     </form>
 {% endblock %}

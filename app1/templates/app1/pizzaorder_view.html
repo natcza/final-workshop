@@ -6,7 +6,7 @@
 	    <h4>{{ message }}</h4>
     {% endif %}
 
-    <h1>Pizza </h1><br>
+    <h1>Twoj koszyk</h1><br>
     {% for pizza_order in pizza_orders %}
     nazwa: {{ pizza_order.pizza.name }}<br>
     opis: {{ pizza_order.pizza.description }}<br>
@@ -22,7 +22,9 @@
 {#    {{ formset.as_p }}#}
 
     <br>
-    <input type="submit" value="ZAMOW">
+    <input type="submit" value="Dodaj kolejna pizze">
+    <br><br>
+    <a href="{% url 'pizza-list' %}"> << Dodaj kolejna pizze</a>
     <br>
     ----------------------------------
     </br>
