@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from .forms import UserLoginForm, UserCreateForm, ResetPasswordForm
 
@@ -14,7 +14,9 @@ class LoginView(View):
     def get(self, request, *args, **kwargs):
         context = {
             'form': UserLoginForm(),
+            'query_string': request.META.get('QUERY_STRING')
         }
+        # breakpoint()
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
@@ -78,25 +80,19 @@ class UserCreateView(View):
             cd = form.cleaned_data
             User.objects.create_user(
                 username=cd['login'],
-                # email=cd['email'],
                 password=cd['password'],
-                # last_name=cd['surname'],
-                # first_name=cd['name'],
             )
-            message = "Konto zostało stworzone poprawnie!"
-        context = {
-            'message': message,
-            'form': form,
-        }
-        # return render(request, self.template_name, context)
-        return redirect('accounts:login')
+            query_string = request.META.get('QUERY_STRING', '')
+            if query_string:
+                url = f'{reverse("accounts:login")}?{query_string}'
+                return redirect(url)
+        return redirect('accounts:logout') #login
 
 
 class ResetPasswordView(PermissionRequiredMixin, View):
     form_class = ResetPasswordForm
     template_name = 'accounts/reset_password.html'
     permission_required = 'auth.change_user'
-    # raise_exception = True
 
     def get_user(self, pk):
         return get_object_or_404(User, pk=pk)
