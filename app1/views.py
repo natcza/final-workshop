@@ -94,11 +94,12 @@ class MainView(View):
 
 class PizzaView(View):
     template_name = 'app1/pizza_view.html'
-
     def get(self, request, *args, **kwargs):
+        is_logged_in = request.user.is_authenticated
         pizzas = Pizza.objects.all()
         ctx = {
             'pizzas': pizzas,
+            'is_logged_in':  is_logged_in,
         }
         return render(request, self.template_name, ctx)
 

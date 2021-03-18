@@ -1,6 +1,8 @@
 {% extends 'app1/base.html' %}
 
 {% block content %}
+{#    	    <h4>{{ is_logged_in }}</h4>  -> sprawdzenie czy uzytkownik jest zalogowany przekazany do widoku#}
+
     {% if message %}
 	    <h4>{{ message }}</h4>
     {% endif %}
@@ -13,4 +15,13 @@
 
     </ul>
    <a href="{% url 'topping-list' %}"> << Zobacz liste dodatkow </a>
+    <br><br>
+    {% if is_logged_in %}
+        <a href="{% url 'accounts:logout' %}"> << Wyloguj </a>
+    {% else %}
+        <a href="{% url 'accounts:login' %}"> << Zaloguj </a>
+    {% endif %}
+
+
+
 {% endblock %}

@@ -10,7 +10,6 @@ User = get_user_model()
 
 class LoginView(View):
     template_name = 'accounts/login.html'
-    # login_url = reverse_lazy('add-user')
 
     def get(self, request, *args, **kwargs):
         context = {
@@ -39,7 +38,8 @@ class LoginView(View):
             'form': form,
             'message': message,
         }
-        return render(request, self.template_name, context)
+        # return render(request, self.template_name, context)
+        return redirect('pizza-list')
 
 
 class LogoutView(View):
@@ -60,8 +60,9 @@ class MainView(View):
 
 
 class UserCreateView(View):
-    form_class = UserCreateForm
     template_name = 'accounts/user_create.html'
+    form_class = UserCreateForm
+
 
     def get(self, request, *args, **kwargs):
         context = {
@@ -86,7 +87,8 @@ class UserCreateView(View):
             'message': message,
             'form': form,
         }
-        return render(request, self.template_name, context)
+        # return render(request, self.template_name, context)
+        return redirect('accounts:login')
 
 
 class ResetPasswordView(PermissionRequiredMixin, View):

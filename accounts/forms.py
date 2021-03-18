@@ -11,9 +11,9 @@ class UserLoginForm(forms.Form):
 
 
 class UserCreateForm(forms.Form):
-    login = forms.CharField(label='username')
-    password = forms.CharField()
-    password1 = forms.CharField(label='password')
+    login = forms.CharField(label='Username')
+    password = forms.CharField(label='Password')
+    password1 = forms.CharField(label='Password')
     # name = forms.CharField()
     # surname = forms.CharField()
     # email = forms.EmailField()
