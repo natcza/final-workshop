@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.views import View
 from .forms import UserLoginForm, UserCreateForm, ResetPasswordForm
 
@@ -9,6 +10,7 @@ User = get_user_model()
 
 class LoginView(View):
     template_name = 'accounts/login.html'
+    # login_url = reverse_lazy('add-user')
 
     def get(self, request, *args, **kwargs):
         context = {

@@ -8,5 +8,8 @@
         {% csrf_token %}
         {{ form.as_p }}
         <p><input type="submit" value="send"></p>
+{#            <a href="{% url 'add-user' %}"> << Zaloguj sie!  </a>#}
+{#        <a href="{% url 'add-user' %}"> << Zarejestruj sie!  </a>#}
     </form>
+
 {% endblock %}
