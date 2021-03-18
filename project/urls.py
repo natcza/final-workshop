@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from app1.views import (
-    MainView,
     PizzaView,
     PizzaDetailsView,
     ToppingView,
@@ -27,7 +26,6 @@ from app1.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    path('main/', PizzaView.as_view(), name='pizza-list'),
     path('pizza/', PizzaView.as_view(), name='pizza-list'),
     path('pizza-details/<int:pk>/', PizzaDetailsView.as_view(), name='pizza-details'),
     path('topping/', ToppingView.as_view(), name='topping-list'),

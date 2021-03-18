@@ -8,11 +8,14 @@
         {% csrf_token %}
         {{ form.as_p }}
         <p><input type="submit" value="Zaloguj"></p>
-        {% if query_string %}
-            <a href="{% url 'accounts:add-user' %}?{{ query_string }}"> << Zarejestruj sie! </a>
-        {% else %}
-            <a href="{% url 'accounts:add-user' %}<< Zarejestruj sie!  </a>
-    {% endif %}
+
+{#        {% if query_string %}#}
+{#            <a href="{% url 'accounts:add-user' %}?{{ query_string }}"> << Zarejestruj sie! </a>#}
+{#        {% else %}#}
+{#            <a href="{% url 'accounts:add-user' %}<< Zarejestruj sie!  </a>#}
+{#    {% endif %}#}
     </form>
 
+         <a href="{% url 'accounts:add-user' %}"><< Zarejestruj sie!  </a>
+{#        {% if query_string %}#}
 {% endblock %}
