@@ -16,6 +16,7 @@ from app1.forms import (
 )
 
 class PizzaView(View):
+    """Funkcja wyswietlajaca liste pizz"""
     template_name = 'app1/pizza_view.html'
 
     def get(self, request, *args, **kwargs):
@@ -29,6 +30,7 @@ class PizzaView(View):
 
 
 class PizzaDetailsView(View):
+    """Funkcja wyswietlajaca opis jednej pizzy"""
     template_name = 'app1/pizza_details_view.html'
 
     def get(self, request, *args, **kwargs):
@@ -42,6 +44,7 @@ class PizzaDetailsView(View):
 
 
 class ToppingView(View):
+    """Funkcja wyswietlajaca liste toppingow"""
     template_name = 'app1/topping_view.html'
 
     def get(self, request, *args, **kwargs):
@@ -57,6 +60,7 @@ class PizzaToppingsView(LoginRequiredMixin, View):
     login_url = reverse_lazy('accounts:login')
 
     def get(self, request, *args, **kwargs):
+        """metoda wyswietlajaca nazwe pizzy wraz z lista dodatkow"""
         form = ToppingForm()
         ToppingFormSet = modelformset_factory(Topping, ToppingForm, extra=0)
         formset = ToppingFormSet(queryset=Topping.objects.all())
@@ -71,6 +75,7 @@ class PizzaToppingsView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
+        """Funkcja zapisujaca pizze wraz z dodatkami"""
         form = ToppingForm(request.POST)
         pizza_id = kwargs['pk']
         pizza = get_object_or_404(Pizza, pk=pizza_id)
@@ -104,6 +109,7 @@ class OrderView(View):
     template_name = 'app1/pizzaorder_view.html'
 
     def get(self, request, *args, **kwargs):
+        """Funkcja wyswietlajaca zamowienie"""
         user = request.user
         order_id = kwargs['pk']
         order = get_object_or_404(Order, pk=order_id)

@@ -79,7 +79,8 @@ WSGI_APPLICATION = 'project.wsgi.application'
 #     'default': {
 #         'HOST': '127.0.0.1',
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'projekt_koncowy',
+#         # 'NAME': 'projekt_koncowy',
+#         'NAME': 'pizzashop',
 #         'USER': 'postgres',
 #         'PASSWORD': 'coderslab',
 #     }
