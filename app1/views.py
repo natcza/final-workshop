@@ -32,7 +32,7 @@ class PizzaView(View):
 class PizzaDetailsView(View):
     """Funkcja wyswietlajaca opis jednej pizzy"""
     template_name = 'app1/pizza_details_view.html'
-
+#test stworzyc pizze kotra ma sie zwrocic
     def get(self, request, *args, **kwargs):
         pizza_id = kwargs['pk']
         pizza = get_object_or_404(Pizza, pk=pizza_id)
