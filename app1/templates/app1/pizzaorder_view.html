@@ -12,8 +12,15 @@
     opis: {{ pizza_order.pizza.description }}<br>
     Skadniki
         {% for pizza_order_top in pizza_order.pizzaordertops_set.all %}
-            {{ pizza_order_top.pizza_top.name }} x {{ pizza_order_top.amount }}
+            {{ pizza_order_top.pizza_top.name }} x {{ pizza_order_top.amount }}<br>
+                {% for pizza_ordered in pizzas_ordered %}<br>
+                   nazwa: {{ pizza_ordered.pizza.name }}<br>
+                    opis: {{ pizza_ordered.pizza.description }}<br>
+{#                    {% for top_ordered in tops_ordered %}<br>#}
+{#                        {{ top_ordered.pizza_top.name }}#}
+                {%  endfor %}
             {%  endfor %}
+{#             {%  endfor %}#}
     {%  endfor %}
 <br>
 <br>
@@ -22,7 +29,7 @@
 {#    {{ formset.as_p }}#}
 
     <br>
-    <input type="submit" value="Dodaj kolejna pizze">
+{#    <input type="submit" value="Dodaj kolejna pizze">#}
     <br><br>
     <a href="{% url 'pizza-list' %}"> << Dodaj kolejna pizze</a>
     <br>

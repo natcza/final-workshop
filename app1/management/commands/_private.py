@@ -28,8 +28,3 @@ def create_Pizza():
     Pizza.objects.create(name="Diavola", price=27, description='sos pomidorowy, mozarella, salami spinata')
     Pizza.objects.create(name="Vege", price=28, description='sos pomidorowy, mozzarella, cukinia, oliwki')
     Pizza.objects.create(name="Margarita", price=19, description='sos pomidorowy, mozarella')
-    # Pizza.objects.create(name="Funghi", price=24)
-    # Pizza.objects.create(name="Cotto", price=25)
-    # Pizza.objects.create(name="Fec", price=26)
-    # Pizza.objects.create(name="Diavola", price=27)
-    # Pizza.objects.create(name="Vege", price=28)
