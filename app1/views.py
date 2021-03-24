@@ -105,8 +105,9 @@ class PizzaToppingsView(LoginRequiredMixin, View):
         return redirect('pizza-order', pk=create_order.pk)
 
 
-class OrderView(View):
+class OrderView(LoginRequiredMixin,View):
     template_name = 'app1/pizzaorder_view.html'
+    login_url = reverse_lazy('accounts:login')
 
     def get(self, request, *args, **kwargs):
         """Funkcja wyswietlajaca zamowienie"""

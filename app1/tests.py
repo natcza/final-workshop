@@ -81,17 +81,11 @@ def test_topping_list_view(client, addTopping):
 
 
 @pytest.mark.django_db
-def test_access_by_anonymouse_user_to_order(rf):
+def test_access_by_anonymouse_user_to_order(rf, admin_user):
     request = rf.get('/')
     request.user = AnonymousUser()
-    pizza = Pizza.objects.create(name="Margarita", price=19, description='sos pomidorowy, mozarella')
-    topping = Topping.objects.create(name="Czosnek marynowany", price=2.99)
-    pizza_tops = PizzaTops.objects.create(pizza=pizza, topping=topping, pizza_size=2)
-    order = Order.objects.create(user=AnonymousUser, order_price=4)
-    pizza_order = PizzaOrder.objects.create(pizza=pizza, order=order, amount=1)
-    pizza_order_tops = PizzaOrderTops(pizza_order=pizza_order, pizza_top=topping, amount=1)
-    response = OrderView.as_view()(request, pk=order.pk)
-    assert response.status_code == 200
+    response = OrderView.as_view()(request, pk=5)
+    assert response.status_code == 302
 
 
 
