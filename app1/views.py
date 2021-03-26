@@ -14,7 +14,9 @@ from app1.models import (
 from app1.forms import (
     ToppingForm,
 )
-#test
+
+
+# test
 class PizzaView(View):
     """Funkcja wyswietlajaca liste pizz"""
     template_name = 'app1/pizza_view.html'
@@ -28,11 +30,13 @@ class PizzaView(View):
         }
         return render(request, self.template_name, ctx)
 
-#test
+
+# test
 class PizzaDetailsView(View):
     """Funkcja wyswietlajaca opis jednej pizzy"""
     template_name = 'app1/pizza_details_view.html'
-#test stworzyc pizze kotra ma sie zwrocic
+
+    # test stworzyc pizze kotra ma sie zwrocic
     def get(self, request, *args, **kwargs):
         pizza_id = kwargs['pk']
         pizza = get_object_or_404(Pizza, pk=pizza_id)
@@ -42,7 +46,8 @@ class PizzaDetailsView(View):
         }
         return render(request, self.template_name, ctx)
 
-#test
+
+# test
 class ToppingView(View):
     """Funkcja wyswietlajaca liste toppingow"""
     template_name = 'app1/topping_view.html'
@@ -75,12 +80,13 @@ class PizzaToppingsView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        """Funkcja zapisujaca pizze wraz z dodatkami"""
+        """Funkcja zapisujaca pizze wraz z dodatkami i przekierowujaca na strone koszyk"""
         form = ToppingForm(request.POST)
         pizza_id = kwargs['pk']
         pizza = get_object_or_404(Pizza, pk=pizza_id)
         ToppingFormSet = modelformset_factory(Topping, ToppingForm, extra=0)
         formset = ToppingFormSet(request.POST, queryset=Topping.objects.all())
+        # breakpoint()
         user = request.user
         order_price = pizza.price
         if formset.is_valid():
@@ -105,23 +111,20 @@ class PizzaToppingsView(LoginRequiredMixin, View):
         return redirect('pizza-order', pk=create_order.pk)
 
 
-class OrderView(LoginRequiredMixin,View):
+class OrderView(LoginRequiredMixin, View):
+    """Wyswietla dane dotyczace zamowienia"""
     template_name = 'app1/pizzaorder_view.html'
     login_url = reverse_lazy('accounts:login')
 
     def get(self, request, *args, **kwargs):
-        """Funkcja wyswietlajaca zamowienie"""
+        """Funkcja wyswietlajaca konkretne zamowienie"""
         user = request.user
         order_id = kwargs['pk']
-        order = get_object_or_404(Order, pk=order_id)
-        # pizzas = order.pizzas.all()
+        order = get_object_or_404(Order, pk=order_id, user=user)
+        pizzas = order.pizzas.all()
         pizza_orders = PizzaOrder.objects.filter(order__pk=order_id)
-        pizzas_ordered = PizzaOrder.objects.all()
-        tops_ordered = PizzaOrderTops.objects.all()
         context = {
             'pizza_orders': pizza_orders,
-            'pizzas_ordered': pizzas_ordered,
-            'tops_ordered': tops_ordered,
         }
 
         return render(request, self.template_name, context)

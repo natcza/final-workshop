@@ -1,13 +1,10 @@
 import pytest
 
-# from django.test import Client
 from app1.models import Pizza, Topping
 from django.core.management import call_command
 
 
-# @pytest.fixture
-# def client():
-#     return Client()
+
 
 @pytest.fixture
 def addPizza():
@@ -22,9 +19,9 @@ def addTopping():
     Topping.objects.create(name="Chilli", price=2.99)
 
 
+@pytest.fixture
+def checkTopping():
+    return {'form-0-number': '1', 'form-0-id': '1', 'form-1-number': '2',
+     'form-1-id': '2', 'form-2-number': '', 'form-2-id': '3'}
 
 
-
-
-# def pizza():
-#     return Pizza.objects.create(name="Margarita", price=19, description='sos pomidorowy, mozarella')
